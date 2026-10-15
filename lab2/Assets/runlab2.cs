@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class runlab2 : MonoBehaviour
+public class runlab2: MonoBehaviour
 {
 
     public float moveSpeed;
     public float jumpHeight;
-    public KeyCode SpaceBar; 
-    public KeyCode L; 
+    public KeyCode SpaceBar;
+    public KeyCode L;
     public KeyCode R;
     public Transform groundCheck;
     public float groundCheckRadius;
@@ -18,6 +18,7 @@ public class runlab2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        anim= GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -38,6 +39,9 @@ public class runlab2 : MonoBehaviour
                 GetComponent<SpriteRenderer>().flipX = false;
             }
         }
+        anim.SetFloat("Speed",Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x));
+        anim.SetFloat("Hieght", GetComponent<Rigidbody2D>().velocity.y);
+        anim.SetBool("grounded", grounded);
     }
 
     void Jump() {
