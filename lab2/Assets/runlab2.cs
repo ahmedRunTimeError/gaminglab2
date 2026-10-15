@@ -4,45 +4,48 @@ using UnityEngine;
 
 public class runlab2 : MonoBehaviour
 {
-    public float move ;
-    public float jumb ;
-    public keycode spacebar;
-     public keycode L;
-    public keycode R;
 
-
-
+    public float moveSpeed;
+    public float jumpHeight;
+    public KeyCode SpaceBar; 
+    public KeyCode L; 
+    public KeyCode R;
+    public Transform groundCheck;
+    public float groundCheckRadius;
+    public LayerMask whatIsGround;
+    private bool grounded;
+    private Animator anim;
+    // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-      if(Input.GetKeyDown(spacebar))  {
-        jumb();
-    
-      }
+        if (Input.GetKeyDown(SpaceBar) && grounded) {
+            Jump();
+        }
+        if (Input.GetKey(L)) {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(-moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
+            if(GetComponent<SpriteRenderer>()!=null) {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+        }
+        if (Input.GetKey(R)) {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
+            if(GetComponent<SpriteRenderer>()!=null) {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+        }
+    }
 
-      if(Input.GetKey(L))  {
-        GetComponate <Rigidbody 2D>.velocity =new vectour2(-move,   GetComponate <Rigidbody 2D>.velocity.y)
-    
-      }
+    void Jump() {
+        GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jumpHeight);
+    }
 
-if(Input.GetKey(R))  {
-        GetComponate <Rigidbody 2D>.velocity =new vectour2(-move,   GetComponate <Rigidbody 2D>.velocity.y)
-    
-      }
-
-
-
-
-
-
-
-
-
-
+    void FixedUpdate()
+    {
+        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
     }
 }
